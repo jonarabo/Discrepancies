@@ -1,0 +1,1 @@
+https://api.the-odds-api.com/v4/sports/americanbasketball_nba/events/odds?apiKey=0a5eb1aba8800b654d2ad824c506c03d&regions=us&markets=player_points&oddsFormat=american

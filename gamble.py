@@ -27,9 +27,8 @@ requests = tls_client.Session(
 pp = requests.get('https://api.prizepicks.com/projections').json()
 ud = requests.get("https://api.underdogfantasy.com/beta/v3/over_under_lines").json()
 
-pplist = []
-udlist = []
-combinedlist = []
+pppoints = []
+udpoints = []
 
 for x in ud["over_under_lines"]:
     sport = ''.join(x["over_under"]["title"].split()[0:1])
@@ -38,7 +37,7 @@ for x in ud["over_under_lines"]:
     value = x['stat_value']
     if stat == 'Points':
         info = {"Name": name.format(), "Stat": stat, "Line": value}
-        udlist.append(info)
+        udpoints.append(info)
 #print(udlist)
 
 for x in pp['included']:
@@ -56,20 +55,157 @@ for x in pp['included']:
         
         if stat == 'Points' and id == did and int(league) < 50:
             info = {"Name": name.format(), "Stat": stat, "Line": value}
-            pplist.append(info)
+            pppoints.append(info)
 #print(pplist)
 
 
 
-dict3 = {item["Name"]: float(item["Line"]) for item in pplist}
-dict4 = {item["Name"]: float(item["Line"]) for item in udlist}
+dict3 = {item["Name"]: float(item["Line"]) for item in pppoints}
+dict4 = {item["Name"]: float(item["Line"]) for item in udpoints}
 
 common_names = set(dict3.keys()) & set(dict4.keys())
 
 differences = {name: dict4[name] - dict3[name] for name in common_names}
 
-sorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+pointssorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
 
-for name, diff in sorted_differences:
+for name, diff in pointssorted_differences:
     if (diff != 0.0):
-        print(f"Name: {name}: PP Line: {dict3[name]} UD Line: {dict4[name]} Difference: {diff}")
+        print("---POINTS---"f"Name: {name}: PP Line: {dict3[name]} UD Line: {dict4[name]} Difference: {diff}")
+
+pprebounds = []
+udrebounds = []
+
+for x in ud["over_under_lines"]:
+    sport = ''.join(x["over_under"]["title"].split()[0:1])
+    name = ' '.join(x["over_under"]["title"].split()[0:2])
+    stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+    value = x['stat_value']
+    if stat == 'Rebounds':
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udrebounds.append(info)
+#print(udlist)
+
+for x in pp['included']:
+    id = x['id']
+    name = x['attributes']['name']
+
+    for y in pp['data']:
+        did = y['relationships']['new_player']['data']['id']
+        value = y['attributes']['line_score']
+        stat = y['attributes']['stat_type']
+        league = y['relationships']['league']['data']['id']
+
+        if id == did and stat == "Rebounds":
+            points = stat == 'Rebounds'
+        
+        if stat == 'Rebounds' and id == did and int(league) < 50:
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            pprebounds.append(info)
+#print(pplist)
+
+
+dict5 = {item["Name"]: float(item["Line"]) for item in pprebounds}
+dict6 = {item["Name"]: float(item["Line"]) for item in udrebounds}
+
+common_names = set(dict5.keys()) & set(dict6.keys())
+
+differences = {name: dict6[name] - dict5[name] for name in common_names}
+
+reboundssorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+
+for name, diff in reboundssorted_differences:
+    if (diff != 0.0):
+        print("---REBOUNDS---"f"Name: {name}: PP Line: {dict5[name]} UD Line: {dict6[name]} Difference: {diff}")
+
+
+ppassists = []
+udassists = []
+
+for x in ud["over_under_lines"]:
+    sport = ''.join(x["over_under"]["title"].split()[0:1])
+    name = ' '.join(x["over_under"]["title"].split()[0:2])
+    stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+    value = x['stat_value']
+    if stat == 'Assists':
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udassists.append(info)
+#print(udlist)
+
+for x in pp['included']:
+    id = x['id']
+    name = x['attributes']['name']
+
+    for y in pp['data']:
+        did = y['relationships']['new_player']['data']['id']
+        value = y['attributes']['line_score']
+        stat = y['attributes']['stat_type']
+        league = y['relationships']['league']['data']['id']
+
+        if id == did and stat == "Assists":
+            points = stat == 'Assists'
+        
+        if stat == 'Assists' and id == did and int(league) < 50:
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            ppassists.append(info)
+#print(pplist)
+
+
+dict7 = {item["Name"]: float(item["Line"]) for item in ppassists}
+dict8 = {item["Name"]: float(item["Line"]) for item in udassists}
+
+common_names = set(dict7.keys()) & set(dict8.keys())
+
+differences = {name: dict8[name] - dict7[name] for name in common_names}
+
+assitssorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+
+for name, diff in assitssorted_differences:
+    if (diff != 0.0):
+        print("---ASSISTS---"f"Name: {name}: PP Line: {dict7[name]} UD Line: {dict8[name]} Difference: {diff}")
+
+
+pppra = []
+udpra = []
+
+for x in ud["over_under_lines"]:
+    sport = ''.join(x["over_under"]["title"].split()[0:1])
+    name = ' '.join(x["over_under"]["title"].split()[0:2])
+    stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+    value = x['stat_value']
+    if stat == 'Pts + Rebs + Asts':
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udpra.append(info)
+#print(udlist)
+
+for x in pp['included']:
+    id = x['id']
+    name = x['attributes']['name']
+
+    for y in pp['data']:
+        did = y['relationships']['new_player']['data']['id']
+        value = y['attributes']['line_score']
+        stat = y['attributes']['stat_type']
+        league = y['relationships']['league']['data']['id']
+
+        if id == did and stat == "Pts+Rebs+Asts":
+            points = stat == 'Pts+Rebs+Asts'
+        
+        if stat == 'Pts+Rebs+Asts' and id == did and int(league) < 50:
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            pppra.append(info)
+#print(pplist)
+
+
+dict9 = {item["Name"]: float(item["Line"]) for item in pppra}
+dict10 = {item["Name"]: float(item["Line"]) for item in udpra}
+
+common_names = set(dict9.keys()) & set(dict10.keys())
+
+differences = {name: dict10[name] - dict9[name] for name in common_names}
+
+prasorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+
+for name, diff in prasorted_differences:
+    if (diff != 0.0):
+        print("---PTS+REBS+ASTS---"f"Name: {name}: PP Line: {dict9[name]} UD Line: {dict10[name]} Difference: {diff}")

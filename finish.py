@@ -86,6 +86,8 @@ def get_most_recent_odds(game_id, market):
 
     return odds_response
 
+oddslist = []
+
 def extract_odds_information(odds):
     for bookie in odds.get('sportsbooks', []):
         market = bookie.get('market', {})
@@ -96,11 +98,11 @@ def extract_odds_information(odds):
             odds_value = outcome.get('odds')
             
             if participant_name is not None and handicap is not None and odds_value is not None:
-                print(f"Participant Name: {participant_name}, Handicap: {handicap}, Odds: {odds_value}")
+                oddslist.append(f"Name: {participant_name}, Line: {handicap}, Odds: {odds_value}")
+                #print(f"Participant Name: {participant_name}, Handicap: {handicap}, Odds: {odds_value}")
+                #print(oddslist)
 
 
-
-#oddslist = []
 
 def main():
 
@@ -130,6 +132,7 @@ def main():
             # Get odds for the market
             odds = get_most_recent_odds(game_id, market_name)
             extract_odds_information(odds)
+            
             #oddslist.append(odds)
             #with open('oddslist.json', 'w') as json_file:
                 #json.dump(oddslist, json_file, indent=2)
@@ -169,18 +172,18 @@ for x in pp['included']:
 
 dict3 = {item["Name"]: float(item["Line"]) for item in pplist}
 dict4 = {item["Name"]: float(item["Line"]) for item in udlist}
+dict5 = {item["Name"]: float(item["Line"]) for item in oddslist}
 
 
-common_names = set(dict3.keys()) & set(dict4.keys())
+common_names = set(dict3.keys()) & set(dict4.keys()) #& set(dict5.keys())
 
 differences = {name: dict4[name] - dict3[name] for name in common_names}
 
 sorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
-''''
+
 for name, diff in sorted_differences:
     if (diff != 0.0):
-        print(f"Name: {name}: PP Line: {dict3[name]} UD Line: {dict4[name]} Difference: {diff}")
-'''
+        print(f"Name: {name}: PP Line: {dict3[name]} UD Line: {dict4[name]} Difference: {diff}, Fanduel Odds: ")
 
 if __name__ == '__main__':
     main()

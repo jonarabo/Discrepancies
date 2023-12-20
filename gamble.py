@@ -394,3 +394,49 @@ bssorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=T
 for name, diff in bssorted_differences:
     if (diff != 0.0):
         print("---BLKS+STLS---"f"Name: {name}: PP Line: {dict17[name]} UD Line: {dict18[name]} Difference: {diff}")
+
+
+ppto = []
+udto = []
+
+for x in ud["over_under_lines"]:
+    sport = ''.join(x["over_under"]["title"].split()[0:1])
+    name = ' '.join(x["over_under"]["title"].split()[0:2])
+    stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+    value = x['stat_value']
+    if stat == 'Turnovers':
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udto.append(info)
+#print(udlist)
+
+for x in pp['included']:
+    id = x['id']
+    name = x['attributes']['name']
+
+    for y in pp['data']:
+        did = y['relationships']['new_player']['data']['id']
+        value = y['attributes']['line_score']
+        stat = y['attributes']['stat_type']
+        league = y['relationships']['league']['data']['id']
+
+        if id == did and stat == "Turnovers":
+            points = stat == 'Turnovers'
+        
+        if stat == 'Turnovers' and id == did and int(league) < 70:
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            ppto.append(info)
+#print(pplist)
+
+
+dict19 = {item["Name"]: float(item["Line"]) for item in ppto}
+dict20 = {item["Name"]: float(item["Line"]) for item in udto}
+
+common_names = set(dict19.keys()) & set(dict20.keys())
+
+differences = {name: dict20[name] - dict19[name] for name in common_names}
+
+tosorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+
+for name, diff in tosorted_differences:
+    if (diff != 0.0):
+        print("---TURNOVERS---"f"Name: {name}: PP Line: {dict19[name]} UD Line: {dict20[name]} Difference: {diff}")

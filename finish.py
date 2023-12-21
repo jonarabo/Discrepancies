@@ -2,7 +2,6 @@ import requests
 import urllib
 from datetime import datetime, timedelta
 import tls_client
-import json
 
 BASE_URL = 'https://api.prop-odds.com'
 API_KEY = 'tUyC39x5rploU3BFK0lylig2jeVtfBEdAH4Tupxdfc'
@@ -27,6 +26,7 @@ requests = tls_client.Session(
     client_identifier="chrome112",
 )
 
+# Functions
 
 def get_request(url):
     response = requests.get(url)
@@ -35,7 +35,6 @@ def get_request(url):
 
     print('Request failed with status:', response.status_code)
     return {}
-
 
 def get_nba_games():
     ''' 
@@ -54,10 +53,6 @@ def get_nba_games():
         'tz': 'America/New_York',
         'api_key': API_KEY,
     }
-    
-
-
-
 
     params = urllib.parse.urlencode(query_params)
     url = BASE_URL + '/beta/games/nba?' + params
@@ -71,7 +66,6 @@ def get_game_info(game_id):
     url = BASE_URL + '/beta/game/' + game_id + '?' + params
     return get_request(url)
 
-
 def get_markets(game_id, market_type='player_points_over_under'):
     query_params = {
         'api_key': API_KEY,
@@ -82,7 +76,6 @@ def get_markets(game_id, market_type='player_points_over_under'):
 
     filtered_markets = [market for market in markets.get('markets', []) if market.get('name') == market_type]
     return {'markets': filtered_markets}
-
 
 def get_most_recent_odds(game_id, market):
     query_params = {
@@ -101,64 +94,6 @@ def get_most_recent_odds(game_id, market):
 
     return odds_response
 
-oddslist = []
-
-def extract_odds_information(odds):
-    for bookie in odds.get('sportsbooks', []):
-        market = bookie.get('market', {})
-        outcomes = market.get('outcomes', [])
-        for outcome in outcomes:
-            participant_name = outcome.get('participant_name')
-            handicap = outcome.get('handicap')
-            odds_value = outcome.get('odds')
-
-            if participant_name is not None and handicap is not None and odds_value is not None:
-                odds_info = {"Name": participant_name, "Line": handicap, "Odds": odds_value}
-                oddslist.append(odds_info)
-                #print(oddslist)
-
-                # Check if the participant_name and handicap exist in pplist or udlist
-                #if any(player['Name'] == participant_name and player['Line'] == handicap for player in pplist + udlist):
-                #    print(f"Name: {participant_name}, Line: {handicap}, Odds: {odds_value}")
-
-                
-
-
-def main():
-
-    games = get_nba_games()
-    if len(games['games']) == 0:
-        print('No games scheduled for today.')
-        return
-
-    for game in games['games']:
-        game_id = game['game_id']
-        #print(f"\nGame ID: {game_id}")
-        
-        # Get game info
-        game_info = get_game_info(game_id)
-        # Print relevant game information if needed
-        
-        # Get all markets for the game
-        markets = get_markets(game_id)
-        if len(markets['markets']) == 0:
-            print('No markets found for this game.')
-            continue
-
-        for market in markets['markets']:
-            market_name = market['name']
-            #print(f"\nMarket: {market_name}")
-            
-            # Get odds for the market
-            odds = get_most_recent_odds(game_id, market_name)
-            extract_odds_information(odds)
-            
-            #oddslist.append(odds)
-            #with open('oddslist.json', 'w') as json_file:
-                #json.dump(oddslist, json_file, indent=2)
-            #print(oddslist)
-            #print(odds)
-
 pp = requests.get('https://api.prizepicks.com/projections').json()
 ud = requests.get("https://api.underdogfantasy.com/beta/v3/over_under_lines").json()
 
@@ -171,8 +106,8 @@ for x in ud["over_under_lines"]:
     stat = f"{x['over_under']['appearance_stat']['display_stat']}"
     value = x['stat_value']
     if stat == 'Points':
-        odds_info = {"Name": name.format(), "Stat": stat, "Line": value}
-        udlist.append(odds_info)
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udlist.append(info)
 #print(udlist)
 
 for x in pp['included']:
@@ -185,27 +120,72 @@ for x in pp['included']:
         stat = y['attributes']['stat_type']
         league = y['relationships']['league']['data']['id']
 
+        if id == did and stat == "Points":
+            points = stat == 'Points'
+        
         if stat == 'Points' and id == did and int(league) < 50:
-            odds_info = {"Name": name.format(), "Stat": stat, "Line": value}
-            pplist.append(odds_info)
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            pplist.append(info)
 #print(pplist)
+
+
 
 dict3 = {item["Name"]: float(item["Line"]) for item in pplist}
 dict4 = {item["Name"]: float(item["Line"]) for item in udlist}
-#dict5 = {item["Name"]: float(item["Line"]) for item in oddslist}
 
+common_names = set(dict3.keys()) & set(dict4.keys())
 
-common_names = set(dict3.keys()) & set(dict4.keys()) #& set(dict5.keys())
+oddslist = []  # Assuming you want to store Fanduel odds for each participant
 
-differences = {name: dict4[name] - dict3[name] for name in common_names}
+def extract_odds_information(odds):
+    name_count = {}  # Keep track of the count for each name
+    for bookie in odds.get('sportsbooks', []):
+        market = bookie.get('market', {})
+        outcomes = market.get('outcomes', [])
+        for outcome in outcomes:
+            participant_name = outcome.get('participant_name')
+            handicap = outcome.get('handicap')
+            odds_value = outcome.get('odds')
 
-sorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+            if participant_name is not None and handicap is not None and odds_value is not None:
+                count = name_count.get(participant_name, 0)
+                if count < 2:
+                    odds_info = {"Name": participant_name, "Line": handicap, "Odds": odds_value}
+                    oddslist.append(odds_info)
+                    name_count[participant_name] = count + 1
 
-for name, diff in sorted_differences:
-        if diff != 0.0:
-            print(f"Name: {name}, PP Line: {dict3[name]}, UD Line: {dict4[name]}, Difference: {diff}, Fanduel Odds: ")
+# Main function
 
+def main():
+    games = get_nba_games()
+    if len(games['games']) == 0:
+        print('No games scheduled for today.')
+        return
 
+    for game in games['games']:
+        game_id = game['game_id']
+        game_info = get_game_info(game_id)
+
+        markets = get_markets(game_id)
+        if len(markets['markets']) == 0:
+            #print('No markets found for this game.')
+            continue
+
+        for market in markets['markets']:
+            market_name = market['name']
+            odds_info = get_most_recent_odds(game_id, market_name)
+            extract_odds_information(odds_info)
+
+            #print(f"\nGame ID: {game_id}, Market: {market_name}")
+
+    for odds_dict in oddslist:
+        odds_name = odds_dict['Name']
+        if odds_name in common_names:
+            pp_line = dict3.get(odds_name, None)
+            ud_line = dict4.get(odds_name, None)
+            diff = ud_line - pp_line
+            if diff != 0.0:
+                print(f"Name: {odds_name}, PP Line: {pp_line}, UD Line: {ud_line}, Difference: {diff}, Fanduel Odds: {odds_dict.get('Odds', None)}")
 
 if __name__ == '__main__':
     main()

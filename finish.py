@@ -185,7 +185,7 @@ def main():
             ud_line = dict4.get(odds_name, None)
             diff = ud_line - pp_line
             if diff != 0.0:
-                print(f"Name: {odds_name}, PP Line: {pp_line}, UD Line: {ud_line}, Difference: {diff}, Fanduel Odds: {odds_dict.get('Odds', None)}")
+                print(f"Name: {odds_name}, PP Line: {pp_line}, UD Line: {ud_line}, Difference: {diff}, Fanduel Line: {odds_dict.get('Line', None)}, Fanduel Odds: {odds_dict.get('Odds', None)}")
 
 if __name__ == '__main__':
     main()

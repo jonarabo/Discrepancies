@@ -5,7 +5,7 @@ import tls_client
 import json
 
 BASE_URL = 'https://api.prop-odds.com'
-API_KEY = 'KUJ9DafGwXoI5wowMOlliun1qaxOqBfssErPE97p1as'
+API_KEY = 'tUyC39x5rploU3BFK0lylig2jeVtfBEdAH4Tupxdfc'
 
 headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -38,6 +38,7 @@ def get_request(url):
 
 
 def get_nba_games():
+    ''' 
     now = datetime.now()
     tomorrow = now + timedelta(days=1)
     query_params = {
@@ -53,7 +54,7 @@ def get_nba_games():
         'tz': 'America/New_York',
         'api_key': API_KEY,
     }
-    '''
+    
 
 
 
@@ -117,10 +118,10 @@ def extract_odds_information(odds):
                 #print(oddslist)
 
                 # Check if the participant_name and handicap exist in pplist or udlist
-                if any(player['Name'] == participant_name and player['Line'] == handicap for player in pplist + udlist):
-                    print(f"Name: {participant_name}, Line: {handicap}, Odds: {odds_value}")
+                #if any(player['Name'] == participant_name and player['Line'] == handicap for player in pplist + udlist):
+                #    print(f"Name: {participant_name}, Line: {handicap}, Odds: {odds_value}")
 
-
+                
 
 
 def main():
@@ -201,16 +202,10 @@ differences = {name: dict4[name] - dict3[name] for name in common_names}
 sorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
 
 for name, diff in sorted_differences:
-    if diff != 0.0:
-        pp_line = dict3.get(name, 'N/A')
-        ud_line = dict4.get(name, 'N/A')
+        if diff != 0.0:
+            print(f"Name: {name}, PP Line: {dict3[name]}, UD Line: {dict4[name]}, Difference: {diff}, Fanduel Odds: ")
 
-        # Find the odds from oddslist for the current name and handicap
-        matching_odds = [odds['Odds'] for odds in oddslist if odds['Name'] == name and odds['Line'] == dict4[name]]
 
-        fanduel_odds = ', '.join(map(str, matching_odds)) if matching_odds else 'N/A'
-
-        print(f"Name: {name}, PP Line: {pp_line}, UD Line: {ud_line}, Difference: {diff}, Fanduel Odds: {fanduel_odds}")
 
 if __name__ == '__main__':
     main()

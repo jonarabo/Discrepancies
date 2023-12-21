@@ -96,11 +96,16 @@ def extract_odds_information(odds):
             participant_name = outcome.get('participant_name')
             handicap = outcome.get('handicap')
             odds_value = outcome.get('odds')
-            
+
             if participant_name is not None and handicap is not None and odds_value is not None:
-                oddslist.append(f"Name: {participant_name}, Line: {handicap}, Odds: {odds_value}")
-                #print(f"Participant Name: {participant_name}, Handicap: {handicap}, Odds: {odds_value}")
-                #print(oddslist)
+                odds_info = {"Name": participant_name, "Line": handicap, "Odds": odds_value}
+                oddslist.append(odds_info)
+
+                # Check if the participant_name and handicap exist in pplist or udlist
+                if any(player['Name'] == participant_name and player['Line'] == handicap for player in pplist + udlist):
+                    continue
+                    #print(f"Name: {participant_name}, Line: {handicap}, Odds: {odds_value}")
+
 
 
 
@@ -172,7 +177,7 @@ for x in pp['included']:
 
 dict3 = {item["Name"]: float(item["Line"]) for item in pplist}
 dict4 = {item["Name"]: float(item["Line"]) for item in udlist}
-dict5 = {item["Name"]: float(item["Line"]) for item in oddslist}
+#dict5 = {item["Name"]: float(item["Line"]) for item in oddslist}
 
 
 common_names = set(dict3.keys()) & set(dict4.keys()) #& set(dict5.keys())
@@ -182,8 +187,16 @@ differences = {name: dict4[name] - dict3[name] for name in common_names}
 sorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
 
 for name, diff in sorted_differences:
-    if (diff != 0.0):
-        print(f"Name: {name}: PP Line: {dict3[name]} UD Line: {dict4[name]} Difference: {diff}, Fanduel Odds: ")
+    if diff != 0.0:
+        pp_line = dict3.get(name, 'N/A')
+        ud_line = dict4.get(name, 'N/A')
+
+        # Find the odds from oddslist for the current name and handicap
+        matching_odds = [odds['Odds'] for odds in oddslist if odds['Name'] == name and odds['Line'] == dict4[name]]
+
+        fanduel_odds = ', '.join(map(str, matching_odds)) if matching_odds else 'N/A'
+
+        print(f"Name: {name}, PP Line: {pp_line}, UD Line: {ud_line}, Difference: {diff}, Fanduel Odds: {fanduel_odds}")
 
 if __name__ == '__main__':
     main()

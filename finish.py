@@ -39,11 +39,25 @@ def get_request(url):
 
 def get_nba_games():
     now = datetime.now()
+    tomorrow = now + timedelta(days=1)
+    query_params = {
+        'date': tomorrow.strftime('%Y-%m-%d'),
+        'tz': 'America/New_York',
+        'api_key': API_KEY,
+    }
+    # Comment out below code to show games for today, comment out above code to show games for tomorrow 
+    ''' 
+    now = datetime.now()
     query_params = {
         'date': now.strftime('%Y-%m-%d'),
         'tz': 'America/New_York',
         'api_key': API_KEY,
     }
+    '''
+
+
+
+
     params = urllib.parse.urlencode(query_params)
     url = BASE_URL + '/beta/games/nba?' + params
     return get_request(url)
@@ -100,11 +114,11 @@ def extract_odds_information(odds):
             if participant_name is not None and handicap is not None and odds_value is not None:
                 odds_info = {"Name": participant_name, "Line": handicap, "Odds": odds_value}
                 oddslist.append(odds_info)
+                #print(oddslist)
 
                 # Check if the participant_name and handicap exist in pplist or udlist
                 if any(player['Name'] == participant_name and player['Line'] == handicap for player in pplist + udlist):
-                    continue
-                    #print(f"Name: {participant_name}, Line: {handicap}, Odds: {odds_value}")
+                    print(f"Name: {participant_name}, Line: {handicap}, Odds: {odds_value}")
 
 
 

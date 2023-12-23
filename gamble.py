@@ -36,7 +36,7 @@ with open('discreps.csv', 'w', newline='') as csvfile:
 
     pppoints = []
     udpoints = []
-
+    print ("----------------------------------NBA/CBB----------------------------------")
     for x in ud["over_under_lines"]:
         sport = ''.join(x["over_under"]["title"].split()[0:1])
         name = ' '.join(x["over_under"]["title"].split()[0:2])
@@ -454,3 +454,54 @@ with open('discreps.csv', 'w', newline='') as csvfile:
         if (diff != 0.0):
             print("---TURNOVERS---"f"Name: {name}: PP Line: {dict19[name]} UD Line: {dict20[name]} Difference: {diff}")
             writer.writerow({'Name': name, 'Stat': 'Turnovers', 'PP_Line': dict19.get(name, ''), 'UD_Line': dict20.get(name, ''), 'Difference': diff})
+
+'''    
+    print ("----------------------------------CS2----------------------------------")
+
+    ppkills = []
+    udkills = []
+
+    for x in ud["over_under_lines"]:
+        sport = ''.join(x["over_under"]["title"].split()[0:1])
+        name = ' '.join(x["over_under"]["title"].split()[0:2])
+        stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+        value = x['stat_value']
+        if stat == 'Kills on Map 1+2':
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            udkills.append(info)
+    print(udkills)
+
+    for x in pp['included']:
+        id = x['id']
+        name = x['attributes']['name']
+
+        for y in pp['data']:
+            did = y['relationships']['new_player']['data']['id']
+            value = y['attributes']['line_score']
+            stat = y['attributes']['stat_type']
+            league = y['relationships']['league']['data']['id']
+
+            if id == did and stat == "MAPS 1-2 Kills":
+                points = stat == 'MAPS 1-2 Kills'
+            
+            if stat == 'MAPS 1-2 Kills' and id == did:
+                info = {"Name": name.format(), "Stat": stat, "Line": value}
+                ppkills.append(info)
+    print(ppkills)
+
+
+    dict21 = {item["Name"]: float(item["Line"]) for item in ppkills}
+    dict22 = {item["Name"]: float(item["Line"]) for item in udkills}
+
+    common_names = set(dict21.keys()) & set(dict22.keys())
+
+    differences = {name: dict22[name] - dict21[name] for name in common_names}
+
+    killssorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+
+    for name, diff in killssorted_differences:
+        if (diff != 0.0):
+            print("---MAP1+2KILLS---"f"Name: {name}: PP Line: {dict21[name]} UD Line: {dict22[name]} Difference: {diff}")
+            writer.writerow({'Name': name, 'Stat': 'MAP1+2KILLS', 'PP_Line': dict21.get(name, ''), 'UD_Line': dict22.get(name, ''), 'Difference': diff})
+'''    
+    

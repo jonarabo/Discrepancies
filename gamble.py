@@ -456,7 +456,7 @@ with open('discreps.csv', 'w', newline='') as csvfile:
             writer.writerow({'Name': name, 'Stat': 'Turnovers', 'PP_Line': dict19.get(name, ''), 'UD_Line': dict20.get(name, ''), 'Difference': diff})
 
     
-    print ("----------------------------------CS2----------------------------------")
+print ("----------------------------------CS2----------------------------------")
 
 ppkills = []
 udkills = []
@@ -502,4 +502,54 @@ killssorted_differences = sorted(differences.items(), key=lambda x: x[1], revers
 for name, diff in killssorted_differences:
     if diff != 0.0:
         print("---MAP1+2KILLS---"f"Name: {name}: PP Line: {dict21[name]} UD Line: {dict22[name]} Difference: {diff}")
-        writer.writerow({'Name': name, 'Stat': 'MAP1+2KILLS', 'PP_Line': dict21.get(name, ''), 'UD_Line': dict22.get(name, ''), 'Difference': diff})
+        #writer.writerow({'Name': name, 'Stat': 'MAP1+2KILLS', 'PP_Line': dict21.get(name, ''), 'UD_Line': dict22.get(name, ''), 'Difference': diff})
+
+
+
+print ("----------------------------------LOL----------------------------------")
+
+pplol = []
+udlol = []
+
+for x in ud["over_under_lines"]:
+    sport = ''.join(x["over_under"]["title"].split()[0:1])
+    name = ' '.join(x["over_under"]["title"].split()[0:2])
+    stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+    value = x['stat_value']
+    if stat == 'Kills in Map 1':
+        name = name.replace("LoL: ", "").strip()
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udlol.append(info)
+#print(udlol)
+
+for x in pp['included']:
+    id = x['id']
+    name = x['attributes']['name']
+
+    for y in pp['data']:
+        did = y['relationships']['new_player']['data']['id']
+        value = y['attributes']['line_score']
+        stat = y['relationships']['league']['data']['type'] #find better way to index stats for league
+        league = y['relationships']['league']['data']['id']
+
+        if id == did and stat == "league":
+            points = stat == 'league'
+        
+        if stat == 'league' and id == did:
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            pplol.append(info)
+#print(pplol)
+
+dict23 = {item["Name"]: float(item["Line"]) for item in pplol}
+dict24 = {item["Name"]: float(item["Line"]) for item in udlol}
+
+common_names = set(dict23.keys()) & set(dict24.keys())
+
+differences = {name: dict24[name] - dict23[name] for name in common_names}
+
+lolsorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+
+for name, diff in lolsorted_differences:
+    if diff != 0.0:
+        print("---MAP1KILLS---"f"Name: {name}: PP Line: {dict23[name]} UD Line: {dict24[name]} Difference: {diff}")
+        #writer.writerow({'Name': name, 'Stat': 'MAP1KILLS', 'PP_Line': dict23.get(name, ''), 'UD_Line': dict24.get(name, ''), 'Difference': diff})

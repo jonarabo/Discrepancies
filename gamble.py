@@ -505,6 +505,53 @@ for name, diff in killssorted_differences:
         #writer.writerow({'Name': name, 'Stat': 'MAP1+2KILLS', 'PP_Line': dict21.get(name, ''), 'UD_Line': dict22.get(name, ''), 'Difference': diff})
 
 
+pphs = []
+udhs = []
+
+for x in ud["over_under_lines"]:
+    sport = ''.join(x["over_under"]["title"].split()[0:1])
+    name = ' '.join(x["over_under"]["title"].split()[0:2])
+    stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+    value = x['stat_value']
+    if stat == 'Headshots on Maps 1+2':
+        name = name.replace("CS: ", "").strip()
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udhs.append(info)
+#print(udkills)
+
+for x in pp['included']:
+    id = x['id']
+    name = x['attributes']['name']
+
+    for y in pp['data']:
+        did = y['relationships']['new_player']['data']['id']
+        value = y['attributes']['line_score']
+        stat = y['attributes']['stat_type']
+        league = y['relationships']['league']['data']['id']
+
+        if id == did and stat == "MAPS 1-2 Headshots":
+            points = stat == 'MAPS 1-2 Headshots'
+        
+        if stat == 'MAPS 1-2 Headshots' and id == did:
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            pphs.append(info)
+#print(ppkills)
+
+dict25 = {item["Name"]: float(item["Line"]) for item in pphs}
+dict26 = {item["Name"]: float(item["Line"]) for item in udhs}
+
+common_names = set(dict25.keys()) & set(dict26.keys())
+
+differences = {name: dict26[name] - dict25[name] for name in common_names}
+
+hsssorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+
+for name, diff in hsssorted_differences:
+    if diff != 0.0:
+        print("---MAP1+2Headshots---"f"Name: {name}: PP Line: {dict25[name]} UD Line: {dict26[name]} Difference: {diff}")
+        #writer.writerow({'Name': name, 'Stat': 'MAP1+2KILLS', 'PP_Line': dict21.get(name, ''), 'UD_Line': dict22.get(name, ''), 'Difference': diff})
+
+
 
 print ("----------------------------------LOL----------------------------------")
 

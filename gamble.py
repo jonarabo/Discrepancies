@@ -78,7 +78,20 @@ with open('discreps.csv', 'w', newline='') as csvfile:
 
     for name, diff in pointssorted_differences:
         if (diff != 0.0):
+            payload = {
+                "embeds": [
+                    {
+                    "description": ("---POINTS---"f"Name: {name}: PP Line: {dict3[name]} UD Line: {dict4[name]} Difference: {diff}"),
+                    "color": 5763719,
+                    "author": {
+                        "name": "ParlayJ"
+                        }
+                }
+            ]
+        }
+
             print("---POINTS---"f"Name: {name}: PP Line: {dict3[name]} UD Line: {dict4[name]} Difference: {diff}")
+            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Points', 'PP_Line': dict3.get(name, ''), 'UD_Line': dict4.get(name, ''), 'Difference': diff})
 
 

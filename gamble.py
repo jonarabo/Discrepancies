@@ -89,7 +89,6 @@ with open('discreps.csv', 'w', newline='') as csvfile:
                 }
             ]
         }
-
             print("---POINTS---"f"Name: {name}: PP Line: {dict3[name]} UD Line: {dict4[name]} Difference: {diff}")
             requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Points', 'PP_Line': dict3.get(name, ''), 'UD_Line': dict4.get(name, ''), 'Difference': diff})
@@ -138,7 +137,19 @@ with open('discreps.csv', 'w', newline='') as csvfile:
 
     for name, diff in reboundssorted_differences:
         if (diff != 0.0):
+            payload = {
+                "embeds": [
+                    {
+                    "description": ("---REBOUNDS---"f"Name: {name}: PP Line: {dict5[name]} UD Line: {dict6[name]} Difference: {diff}"),
+                    "color": 5763719,
+                    "author": {
+                        "name": "ParlayJ"
+                        }
+                }
+            ]
+        }
             print("---REBOUNDS---"f"Name: {name}: PP Line: {dict5[name]} UD Line: {dict6[name]} Difference: {diff}")
+            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Rebounds', 'PP_Line': dict5.get(name, ''), 'UD_Line': dict6.get(name, ''), 'Difference': diff})
 
 
@@ -185,7 +196,19 @@ with open('discreps.csv', 'w', newline='') as csvfile:
 
     for name, diff in assitssorted_differences:
         if (diff != 0.0):
+            payload = {
+                "embeds": [
+                    {
+                    "description": ("---ASSISTS---"f"Name: {name}: PP Line: {dict7[name]} UD Line: {dict8[name]} Difference: {diff}"),
+                    "color": 5763719,
+                    "author": {
+                        "name": "ParlayJ"
+                        }
+                }
+            ]
+        }
             print("---ASSISTS---"f"Name: {name}: PP Line: {dict7[name]} UD Line: {dict8[name]} Difference: {diff}")
+            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Assists', 'PP_Line': dict7.get(name, ''), 'UD_Line': dict8.get(name, ''), 'Difference': diff})
 
 
@@ -232,7 +255,19 @@ with open('discreps.csv', 'w', newline='') as csvfile:
 
     for name, diff in prasorted_differences:
         if (diff != 0.0):
+            payload = {
+                "embeds": [
+                    {
+                    "description": ("---PTS+REBS+ASTS---"f"Name: {name}: PP Line: {dict9[name]} UD Line: {dict10[name]} Difference: {diff}"),
+                    "color": 5763719,
+                    "author": {
+                        "name": "ParlayJ"
+                        }
+                }
+            ]
+        }
             print("---PTS+REBS+ASTS---"f"Name: {name}: PP Line: {dict9[name]} UD Line: {dict10[name]} Difference: {diff}")
+            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Pts+Rebs+Asts', 'PP_Line': dict9.get(name, ''), 'UD_Line': dict10.get(name, ''), 'Difference': diff})
 
 
@@ -279,7 +314,19 @@ with open('discreps.csv', 'w', newline='') as csvfile:
 
     for name, diff in prsorted_differences:
         if (diff != 0.0):
+            payload = {
+                "embeds": [
+                    {
+                    "description": ("---PTS+REBS---"f"Name: {name}: PP Line: {dict11[name]} UD Line: {dict12[name]} Difference: {diff}"),
+                    "color": 5763719,
+                    "author": {
+                        "name": "ParlayJ"
+                        }
+                }
+            ]
+        }
             print("---PTS+REBS---"f"Name: {name}: PP Line: {dict11[name]} UD Line: {dict12[name]} Difference: {diff}")
+            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Pts+Rebs', 'PP_Line': dict11.get(name, ''), 'UD_Line': dict12.get(name, ''), 'Difference': diff})
 
     pppa = []
@@ -325,7 +372,19 @@ with open('discreps.csv', 'w', newline='') as csvfile:
 
     for name, diff in pasorted_differences:
         if (diff != 0.0):
+            payload = {
+                "embeds": [
+                    {
+                    "description": ("---PTS+ASTS---"f"Name: {name}: PP Line: {dict13[name]} UD Line: {dict14[name]} Difference: {diff}"),
+                    "color": 5763719,
+                    "author": {
+                        "name": "ParlayJ"
+                        }
+                }
+            ]
+        }
             print("---PTS+ASTS---"f"Name: {name}: PP Line: {dict13[name]} UD Line: {dict14[name]} Difference: {diff}")
+            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Pts+Asts', 'PP_Line': dict13.get(name, ''), 'UD_Line': dict14.get(name, ''), 'Difference': diff})
 
     ppra = []
@@ -371,7 +430,19 @@ with open('discreps.csv', 'w', newline='') as csvfile:
 
     for name, diff in rasorted_differences:
         if (diff != 0.0):
+            payload = {
+                "embeds": [
+                    {
+                    "description": ("---REBS+ASTS---"f"Name: {name}: PP Line: {dict15[name]} UD Line: {dict16[name]} Difference: {diff}"),
+                    "color": 5763719,
+                    "author": {
+                        "name": "ParlayJ"
+                        }
+                }
+            ]
+        }
             print("---REBS+ASTS---"f"Name: {name}: PP Line: {dict15[name]} UD Line: {dict16[name]} Difference: {diff}")
+            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Rebs+Asts', 'PP_Line': dict15.get(name, ''), 'UD_Line': dict16.get(name, ''), 'Difference': diff})
 
 
@@ -419,7 +490,19 @@ with open('discreps.csv', 'w', newline='') as csvfile:
 
     for name, diff in bssorted_differences:
         if (diff != 0.0):
+            payload = {
+                "embeds": [
+                    {
+                    "description": ("---BLKS+STLS---"f"Name: {name}: PP Line: {dict17[name]} UD Line: {dict18[name]} Difference: {diff}"),
+                    "color": 5763719,
+                    "author": {
+                        "name": "ParlayJ"
+                        }
+                }
+            ]
+        }
             print("---BLKS+STLS---"f"Name: {name}: PP Line: {dict17[name]} UD Line: {dict18[name]} Difference: {diff}")
+            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Blks+Stls', 'PP_Line': dict17.get(name, ''), 'UD_Line': dict18.get(name, ''), 'Difference': diff})
 
     ppto = []
@@ -465,7 +548,19 @@ with open('discreps.csv', 'w', newline='') as csvfile:
 
     for name, diff in tosorted_differences:
         if (diff != 0.0):
+            payload = {
+                "embeds": [
+                    {
+                    "description": ("---TURNOVERS---"f"Name: {name}: PP Line: {dict19[name]} UD Line: {dict20[name]} Difference: {diff}"),
+                    "color": 5763719,
+                    "author": {
+                        "name": "ParlayJ"
+                        }
+                }
+            ]
+        }
             print("---TURNOVERS---"f"Name: {name}: PP Line: {dict19[name]} UD Line: {dict20[name]} Difference: {diff}")
+            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Turnovers', 'PP_Line': dict19.get(name, ''), 'UD_Line': dict20.get(name, ''), 'Difference': diff})
 
     

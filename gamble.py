@@ -90,7 +90,7 @@ with open('discreps.csv', 'w', newline='') as csvfile:
             ]
         }
             print("---POINTS---"f"Name: {name}: PP Line: {dict3[name]} UD Line: {dict4[name]} Difference: {diff}")
-            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+            #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Points', 'PP_Line': dict3.get(name, ''), 'UD_Line': dict4.get(name, ''), 'Difference': diff})
 
 
@@ -149,7 +149,7 @@ with open('discreps.csv', 'w', newline='') as csvfile:
             ]
         }
             print("---REBOUNDS---"f"Name: {name}: PP Line: {dict5[name]} UD Line: {dict6[name]} Difference: {diff}")
-            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+            #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Rebounds', 'PP_Line': dict5.get(name, ''), 'UD_Line': dict6.get(name, ''), 'Difference': diff})
 
 
@@ -208,7 +208,7 @@ with open('discreps.csv', 'w', newline='') as csvfile:
             ]
         }
             print("---ASSISTS---"f"Name: {name}: PP Line: {dict7[name]} UD Line: {dict8[name]} Difference: {diff}")
-            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+            #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Assists', 'PP_Line': dict7.get(name, ''), 'UD_Line': dict8.get(name, ''), 'Difference': diff})
 
 
@@ -267,7 +267,7 @@ with open('discreps.csv', 'w', newline='') as csvfile:
             ]
         }
             print("---PTS+REBS+ASTS---"f"Name: {name}: PP Line: {dict9[name]} UD Line: {dict10[name]} Difference: {diff}")
-            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+            #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Pts+Rebs+Asts', 'PP_Line': dict9.get(name, ''), 'UD_Line': dict10.get(name, ''), 'Difference': diff})
 
 
@@ -326,7 +326,7 @@ with open('discreps.csv', 'w', newline='') as csvfile:
             ]
         }
             print("---PTS+REBS---"f"Name: {name}: PP Line: {dict11[name]} UD Line: {dict12[name]} Difference: {diff}")
-            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+            #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Pts+Rebs', 'PP_Line': dict11.get(name, ''), 'UD_Line': dict12.get(name, ''), 'Difference': diff})
 
     pppa = []
@@ -384,7 +384,7 @@ with open('discreps.csv', 'w', newline='') as csvfile:
             ]
         }
             print("---PTS+ASTS---"f"Name: {name}: PP Line: {dict13[name]} UD Line: {dict14[name]} Difference: {diff}")
-            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+            #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Pts+Asts', 'PP_Line': dict13.get(name, ''), 'UD_Line': dict14.get(name, ''), 'Difference': diff})
 
     ppra = []
@@ -442,7 +442,7 @@ with open('discreps.csv', 'w', newline='') as csvfile:
             ]
         }
             print("---REBS+ASTS---"f"Name: {name}: PP Line: {dict15[name]} UD Line: {dict16[name]} Difference: {diff}")
-            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+            #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Rebs+Asts', 'PP_Line': dict15.get(name, ''), 'UD_Line': dict16.get(name, ''), 'Difference': diff})
 
 
@@ -502,7 +502,7 @@ with open('discreps.csv', 'w', newline='') as csvfile:
             ]
         }
             print("---BLKS+STLS---"f"Name: {name}: PP Line: {dict17[name]} UD Line: {dict18[name]} Difference: {diff}")
-            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+            #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Blks+Stls', 'PP_Line': dict17.get(name, ''), 'UD_Line': dict18.get(name, ''), 'Difference': diff})
 
     ppto = []
@@ -560,7 +560,7 @@ with open('discreps.csv', 'w', newline='') as csvfile:
             ]
         }
             print("---TURNOVERS---"f"Name: {name}: PP Line: {dict19[name]} UD Line: {dict20[name]} Difference: {diff}")
-            requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+            #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
             writer.writerow({'Name': name, 'Stat': 'Turnovers', 'PP_Line': dict19.get(name, ''), 'UD_Line': dict20.get(name, ''), 'Difference': diff})
 
     
@@ -708,3 +708,180 @@ for name, diff in lolsorted_differences:
     if diff != 0.0:
         print("---MAP1KILLS---"f"Name: {name}: PP Line: {dict23[name]} UD Line: {dict24[name]} Difference: {diff}")
         #writer.writerow({'Name': name, 'Stat': 'MAP1KILLS', 'PP_Line': dict23.get(name, ''), 'UD_Line': dict24.get(name, ''), 'Difference': diff})
+
+print ("----------------------------------NFL/CFB----------------------------------")
+
+pppass = []
+udpass = []
+
+for x in ud["over_under_lines"]:
+    sport = ''.join(x["over_under"]["title"].split()[0:1])
+    name = ' '.join(x["over_under"]["title"].split()[0:2])
+    stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+    value = x['stat_value']
+    if stat == 'Passing Yards':
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udpass.append(info)
+#print(udlist)
+
+for x in pp['included']:
+    id = x['id']
+    name = x['attributes']['name']
+
+    for y in pp['data']:
+        did = y['relationships']['new_player']['data']['id']
+        value = y['attributes']['line_score']
+        stat = y['attributes']['stat_type']
+        league = y['relationships']['league']['data']['id']
+
+        if id == did and stat == "Pass Yards":
+            points = stat == 'Pass Yards'
+        
+        if stat == 'Pass Yards' and id == did and int(league) < 50:
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            pppass.append(info)
+#print(pplist)
+
+
+dict27 = {item["Name"]: float(item["Line"]) for item in pppass}
+dict28 = {item["Name"]: float(item["Line"]) for item in udpass}
+
+common_names = set(dict27.keys()) & set(dict28.keys())
+
+differences = {name: dict28[name] - dict27[name] for name in common_names}
+
+passsorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+
+for name, diff in passsorted_differences:
+    if (diff != 0.0):
+        payload = {
+            "embeds": [
+                {
+                "description": ("---PASS YARDS---"f"Name: {name}: PP Line: {dict27[name]} UD Line: {dict28[name]} Difference: {diff}"),
+                "color": 5763719,
+                "author": {
+                    "name": "ParlayJ"
+                    }
+            }
+        ]
+    }
+        print("---PASS YARDS---"f"Name: {name}: PP Line: {dict27[name]} UD Line: {dict28[name]} Difference: {diff}")
+        #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+        #writer.writerow({'Name': name, 'Stat': 'Rebounds', 'PP_Line': dict5.get(name, ''), 'UD_Line': dict6.get(name, ''), 'Difference': diff})
+
+pprecy = []
+udrecy = []
+
+for x in ud["over_under_lines"]:
+    sport = ''.join(x["over_under"]["title"].split()[0:1])
+    name = ' '.join(x["over_under"]["title"].split()[0:2])
+    stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+    value = x['stat_value']
+    if stat == 'Receiving Yards':
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udrecy.append(info)
+#print(udlist)
+
+for x in pp['included']:
+    id = x['id']
+    name = x['attributes']['name']
+
+    for y in pp['data']:
+        did = y['relationships']['new_player']['data']['id']
+        value = y['attributes']['line_score']
+        stat = y['attributes']['stat_type']
+        league = y['relationships']['league']['data']['id']
+
+        if id == did and stat == "PReceiving Yards":
+            points = stat == 'Receiving Yards'
+        
+        if stat == 'Receiving Yards' and id == did and int(league) < 50:
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            pprecy.append(info)
+#print(pplist)
+
+
+dict29 = {item["Name"]: float(item["Line"]) for item in pprecy}
+dict30 = {item["Name"]: float(item["Line"]) for item in udrecy}
+
+common_names = set(dict29.keys()) & set(dict30.keys())
+
+differences = {name: dict30[name] - dict29[name] for name in common_names}
+
+recysorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+
+for name, diff in recysorted_differences:
+    if (diff != 0.0):
+        payload = {
+            "embeds": [
+                {
+                "description": ("---RECEIVING YARDS---"f"Name: {name}: PP Line: {dict29[name]} UD Line: {dict30[name]} Difference: {diff}"),
+                "color": 5763719,
+                "author": {
+                    "name": "ParlayJ"
+                    }
+            }
+        ]
+    }
+        print("---RECEIVING YARDS---"f"Name: {name}: PP Line: {dict29[name]} UD Line: {dict30[name]} Difference: {diff}")
+        #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+        #writer.writerow({'Name': name, 'Stat': 'Rebounds', 'PP_Line': dict5.get(name, ''), 'UD_Line': dict6.get(name, ''), 'Difference': diff})
+
+
+pprec = []
+udrec = []
+
+for x in ud["over_under_lines"]:
+    sport = ''.join(x["over_under"]["title"].split()[0:1])
+    name = ' '.join(x["over_under"]["title"].split()[0:2])
+    stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+    value = x['stat_value']
+    if stat == 'Receptions':
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udrec.append(info)
+#print(udrec)
+
+for x in pp['included']:
+    id = x['id']
+    name = x['attributes']['name']
+
+    for y in pp['data']:
+        did = y['relationships']['new_player']['data']['id']
+        value = y['attributes']['line_score']
+        stat = y['attributes']['stat_type']
+        league = y['relationships']['league']['data']['id']
+
+        if id == did and stat == "Receptions":
+            points = stat == 'Receptions'
+        
+        if stat == 'Receptions' and id == did and int(league) < 50:
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            pprec.append(info)
+#print(pprec)
+
+
+dict31 = {item["Name"]: float(item["Line"]) for item in pprec}
+dict32 = {item["Name"]: float(item["Line"]) for item in udrec}
+
+common_names = set(dict31.keys()) & set(dict32.keys())
+
+differences = {name: dict32[name] - dict31[name] for name in common_names}
+
+recsorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+
+for name, diff in recsorted_differences:
+    if (diff != 0.0):
+        payload = {
+            "embeds": [
+                {
+                "description": ("---RECEPTIONS---"f"Name: {name}: PP Line: {dict31[name]} UD Line: {dict32[name]} Difference: {diff}"),
+                "color": 5763719,
+                "author": {
+                    "name": "ParlayJ"
+                    }
+            }
+        ]
+    }
+        print("---RECEPTIONS---"f"Name: {name}: PP Line: {dict31[name]} UD Line: {dict32[name]} Difference: {diff}")
+        #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+        #writer.writerow({'Name': name, 'Stat': 'Rebounds', 'PP_Line': dict5.get(name, ''), 'UD_Line': dict6.get(name, ''), 'Difference': diff})

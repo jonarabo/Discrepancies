@@ -3,6 +3,7 @@ import urllib
 from datetime import datetime, timedelta
 import tls_client
 
+
 BASE_URL = 'https://api.prop-odds.com'
 API_KEY = 'tUyC39x5rploU3BFK0lylig2jeVtfBEdAH4Tupxdfc'
 
@@ -21,6 +22,19 @@ headers = {
     'upgrade-insecure-requests': '1',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
 }
+
+
+class color:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
 
 requests = tls_client.Session(
     client_identifier="chrome112",
@@ -66,16 +80,22 @@ def get_game_info(game_id):
     url = BASE_URL + '/beta/game/' + game_id + '?' + params
     return get_request(url)
 
-def get_markets(game_id, market_type='player_points_over_under'):
+def get_markets(game_id, market_types):
     query_params = {
         'api_key': API_KEY,
     }
     params = urllib.parse.urlencode(query_params)
-    url = BASE_URL + '/beta/markets/' + game_id + '?' + params
-    markets = get_request(url)
-
-    filtered_markets = [market for market in markets.get('markets', []) if market.get('name') == market_type]
-    return {'markets': filtered_markets}
+    
+    markets_data = []
+    
+    for market_type in market_types:
+        url = BASE_URL + '/beta/markets/' + game_id + '?' + params
+        markets = get_request(url)
+        
+        filtered_markets = [market for market in markets.get('markets', []) if market.get('name') == market_type]
+        markets_data.extend(filtered_markets)
+    
+    return {'markets': markets_data}
 
 def get_most_recent_odds(game_id, market):
     query_params = {
@@ -135,6 +155,44 @@ dict4 = {item["Name"]: float(item["Line"]) for item in udlist}
 
 common_names = set(dict3.keys()) & set(dict4.keys())
 
+
+pprebounds = []
+udrebounds = []
+
+for x in ud["over_under_lines"]:
+    sport = ''.join(x["over_under"]["title"].split()[0:1])
+    name = ' '.join(x["over_under"]["title"].split()[0:2])
+    stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+    value = x['stat_value']
+    if stat == 'Rebounds':
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udrebounds.append(info)
+#print(udlist)
+
+for x in pp['included']:
+    id = x['id']
+    name = x['attributes']['name']
+
+    for y in pp['data']:
+        did = y['relationships']['new_player']['data']['id']
+        value = y['attributes']['line_score']
+        stat = y['attributes']['stat_type']
+        league = y['relationships']['league']['data']['id']
+
+        if id == did and stat == "Rebounds":
+            points = stat == 'Rebounds'
+        
+        if stat == 'Rebounds' and id == did and int(league) < 50:
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            pprebounds.append(info)
+#print(pplist)
+
+
+dict5 = {item["Name"]: float(item["Line"]) for item in pprebounds}
+dict6 = {item["Name"]: float(item["Line"]) for item in udrebounds}
+
+common_names = set(dict5.keys()) & set(dict6.keys())
+
 oddslist = []  # Assuming you want to store Fanduel odds for each participant
 
 def extract_odds_information(odds):
@@ -166,9 +224,11 @@ def main():
         game_id = game['game_id']
         game_info = get_game_info(game_id)
 
-        markets = get_markets(game_id)
+        market_types = ['player_points_over_under', 'player_rebounds_over_under']
+        markets = get_markets(game_id, market_types)
+        
         if len(markets['markets']) == 0:
-            #print('No markets found for this game.')
+            # print('No markets found for this game.')
             continue
 
         for market in markets['markets']:
@@ -181,11 +241,20 @@ def main():
     for odds_dict in oddslist:
         odds_name = odds_dict['Name']
         if odds_name in common_names:
-            pp_line = dict3.get(odds_name, None)
-            ud_line = dict4.get(odds_name, None)
-            diff = ud_line - pp_line
-            if diff != 0.0:
-                print(f"Name: {odds_name}, PP Line: {pp_line}, UD Line: {ud_line}, Difference: {diff}, Fanduel Line: {odds_dict.get('Line', None)}, Fanduel Odds: {odds_dict.get('Odds', None)}")
+            pp_line_points = dict3.get(odds_name, None)
+            ud_line_points = dict4.get(odds_name, None)
+            diffpoints = ud_line_points - pp_line_points
+            if diffpoints != 0.0:
+                print(color.RED + 'POINTS' + color.END + f"Name: {odds_name}, PP Line: {pp_line_points}, UD Line: {ud_line_points}, Difference: {diffpoints}, Fanduel Line: {odds_dict.get('Line', None)}, Fanduel Odds: {odds_dict.get('Odds', None)}")
+
+    for odds_dict in oddslist:
+        odds_name = odds_dict['Name']
+        if odds_name in common_names:
+            pp_line_rebounds = dict5.get(odds_name, None)
+            ud_line_rebounds = dict6.get(odds_name, None)
+            diffreb = ud_line_rebounds - pp_line_rebounds
+            if diffreb != 0.0:
+                print(color.BLUE + 'REBOUNDS' + color.END + f"Name: {odds_name}, PP Line: {pp_line_rebounds}, UD Line: {ud_line_rebounds}, Difference: {diffreb}, Fanduel Line: {odds_dict.get('Line', None)}, Fanduel Odds: {odds_dict.get('Odds', None)}")
 
 if __name__ == '__main__':
     main()

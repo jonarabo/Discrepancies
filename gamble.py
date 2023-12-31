@@ -671,7 +671,7 @@ for x in ud["over_under_lines"]:
     name = ' '.join(x["over_under"]["title"].split()[0:2])
     stat = f"{x['over_under']['appearance_stat']['display_stat']}"
     value = x['stat_value']
-    if stat == 'Kills in Map 1':
+    if stat == 'Kills in Maps 1+2+3':
         name = name.replace("LoL: ", "").strip()
         info = {"Name": name.format(), "Stat": stat, "Line": value}
         udlol.append(info)
@@ -706,7 +706,7 @@ lolsorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=
 
 for name, diff in lolsorted_differences:
     if diff != 0.0:
-        print("---MAP1KILLS---"f"Name: {name}: PP Line: {dict23[name]} UD Line: {dict24[name]} Difference: {diff}")
+        print("---MAP1-3KILLS---"f"Name: {name}: PP Line: {dict23[name]} UD Line: {dict24[name]} Difference: {diff}")
         #writer.writerow({'Name': name, 'Stat': 'MAP1KILLS', 'PP_Line': dict23.get(name, ''), 'UD_Line': dict24.get(name, ''), 'Difference': diff})
 
 print ("----------------------------------NFL/CFB----------------------------------")

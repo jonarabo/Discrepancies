@@ -708,7 +708,7 @@ for name, diff in lolsorted_differences:
     if diff != 0.0:
         print("---MAP1-3KILLS---"f"Name: {name}: PP Line: {dict23[name]} UD Line: {dict24[name]} Difference: {diff}")
         #writer.writerow({'Name': name, 'Stat': 'MAP1KILLS', 'PP_Line': dict23.get(name, ''), 'UD_Line': dict24.get(name, ''), 'Difference': diff})
-
+'''
 print ("----------------------------------NFL/CFB----------------------------------")
 
 pppass = []
@@ -883,5 +883,124 @@ for name, diff in recsorted_differences:
         ]
     }
         print("---RECEPTIONS---"f"Name: {name}: PP Line: {dict31[name]} UD Line: {dict32[name]} Difference: {diff}")
+        #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+        #writer.writerow({'Name': name, 'Stat': 'Rebounds', 'PP_Line': dict5.get(name, ''), 'UD_Line': dict6.get(name, ''), 'Difference': diff})
+'''
+
+print ("----------------------------------PGA----------------------------------")
+
+ppstrokes = []
+udstrokes = []
+
+for x in ud["over_under_lines"]:
+    sport = ''.join(x["over_under"]["title"].split()[0:1])
+    name = ' '.join(x["over_under"]["title"].split()[0:2])
+    stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+    value = x['stat_value']
+    if stat == 'Strokes ':
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udstrokes.append(info)
+#print(udstrokes)
+
+for x in pp['included']:
+    id = x['id']
+    name = x['attributes']['name']
+
+    for y in pp['data']:
+        did = y['relationships']['new_player']['data']['id']
+        value = y['attributes']['line_score']
+        stat = y['attributes']['stat_type']
+        league = y['relationships']['league']['data']['id']
+
+        if id == did and stat == "Strokes":
+            points = stat == 'Strokes'
+        
+        if stat == 'Strokes' and id == did and int(league) < 50:
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            ppstrokes.append(info)
+#print(ppstrokes)
+
+
+dict33 = {item["Name"]: float(item["Line"]) for item in ppstrokes}
+dict34 = {item["Name"]: float(item["Line"]) for item in udstrokes}
+
+common_names = set(dict33.keys()) & set(dict34.keys())
+
+differences = {name: dict34[name] - dict33[name] for name in common_names}
+
+strokessorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+
+for name, diff in strokessorted_differences:
+    if (diff != 0.0):
+        payload = {
+            "embeds": [
+                {
+                "description": ("---STROKES---"f"Name: {name}: PP Line: {dict33[name]} UD Line: {dict34[name]} Difference: {diff}"),
+                "color": 5763719,
+                "author": {
+                    "name": "ParlayJ"
+                    }
+            }
+        ]
+    }
+        print("---STROKES---"f"Name: {name}: PP Line: {dict33[name]} UD Line: {dict34[name]} Difference: {diff}")
+        #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
+        #writer.writerow({'Name': name, 'Stat': 'Rebounds', 'PP_Line': dict5.get(name, ''), 'UD_Line': dict6.get(name, ''), 'Difference': diff})
+
+ppbob = []
+udbob = []
+
+for x in ud["over_under_lines"]:
+    sport = ''.join(x["over_under"]["title"].split()[0:1])
+    name = ' '.join(x["over_under"]["title"].split()[0:2])
+    stat = f"{x['over_under']['appearance_stat']['display_stat']}"
+    value = x['stat_value']
+    if stat == 'Birdies or Better':
+        info = {"Name": name.format(), "Stat": stat, "Line": value}
+        udbob.append(info)
+#print(udbob)
+
+for x in pp['included']:
+    id = x['id']
+    name = x['attributes']['name']
+
+    for y in pp['data']:
+        did = y['relationships']['new_player']['data']['id']
+        value = y['attributes']['line_score']
+        stat = y['attributes']['stat_type']
+        league = y['relationships']['league']['data']['id']
+
+        if id == did and stat == "Birdies Or Better":
+            points = stat == 'Birdies Or Better'
+        
+        if stat == 'Birdies Or Better' and id == did and int(league) < 50:
+            info = {"Name": name.format(), "Stat": stat, "Line": value}
+            ppbob.append(info)
+#print(ppbob)
+
+
+dict35 = {item["Name"]: float(item["Line"]) for item in ppbob}
+dict36 = {item["Name"]: float(item["Line"]) for item in udbob}
+
+common_names = set(dict35.keys()) & set(dict36.keys())
+
+differences = {name: dict36[name] - dict35[name] for name in common_names}
+
+bobsorted_differences = sorted(differences.items(), key=lambda x: x[1], reverse=True)
+
+for name, diff in bobsorted_differences:
+    if (diff != 0.0):
+        payload = {
+            "embeds": [
+                {
+                "description": ("---BIRDIES OR BETTER---"f"Name: {name}: PP Line: {dict35[name]} UD Line: {dict36[name]} Difference: {diff}"),
+                "color": 5763719,
+                "author": {
+                    "name": "ParlayJ"
+                    }
+            }
+        ]
+    }
+        print("---BIRDIES OR BETTER---"f"Name: {name}: PP Line: {dict35[name]} UD Line: {dict36[name]} Difference: {diff}")
         #requests.post("https://discord.com/api/webhooks/1189173830569173114/_BtRkTJvk03QcAW_hN5w-7vcdxjUzUokbEHVXWsZ3l5D6CUtbxPGITNuPraOAtS7v5cW", json=payload)
         #writer.writerow({'Name': name, 'Stat': 'Rebounds', 'PP_Line': dict5.get(name, ''), 'UD_Line': dict6.get(name, ''), 'Difference': diff})
